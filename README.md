@@ -50,3 +50,38 @@ class SomeViewSet(viewsets.ViewSet):
 
   latex_name = 'directory/latexfile.tex'
 ```
+
+### Using the Template Tags
+
+To use the template tags, add `rest_framework_latex` to your `INSTALLED_APPS`:
+
+```python
+INSTALLED_APPS = [
+  ...
+  'rest_framework_latex',
+  ...
+]
+```
+
+Then load in your tags in your template:
+
+
+```latex
+\documentclass{article}
+{% load rest_framework_latex %}
+
+{{ user_entered_text | latex_safe }}
+
+{% latex_resources %}
+```
+
+|        Tag        | Tag/Filter  |                    Purpose                      |
+|-------------------|-------------|-------------------------------------------------|
+|    `latex_safe`   |    Filter   | Escape all user-entered content for LaTeX rules |
+| `latex_resources` |      Tag    |  Print the value of `settings.LATEX_RESOURCES`  |
+
+
+## Django Compatibility
+
+The REST Framework LaTeX plugin is compatible with Django 1.9 and up and
+Django REST Framework 3.3 and up.
