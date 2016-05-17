@@ -52,7 +52,7 @@ class RendererTestCase(TestCase):
         settings.LATEX_RESOURCES = 'output'
 
         Popen.return_value = self._get_proc(
-            return_value=1, stderr='Test error')
+            return_value=1, stdout='Test error')
 
         try:
             self.renderer.render(
