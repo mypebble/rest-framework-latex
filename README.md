@@ -5,6 +5,14 @@
 
 A simple plug-n-play LaTeX renderer for Django REST Framework.
 
+## Installing
+
+REST Framework LaTeX can be downloaded from PyPI:
+
+```bash
+pip install rest-framework-latex
+```
+
 ## Dependencies
 
 Currently the LaTeX plugin requires `lualatex` - to install this on Ubuntu:
