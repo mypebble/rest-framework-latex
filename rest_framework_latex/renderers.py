@@ -73,8 +73,8 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
         proc = Popen(call_args, cwd=join(t_dir, 'tex'))
         out, err = proc.communicate()
         if proc.returncode != 0:
-            raise RuntimeError('Latex returned nonzero response: {}'.format(
-                proc.returncode))
+            err_msg = u'LaTeX returned nonzero response `{}` with msg: `{}`'
+            raise RuntimeError(err_msg.format(proc.returncode, err))
         logger.info(err)
 
         # Read file
