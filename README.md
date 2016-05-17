@@ -70,12 +70,12 @@ To get around this issue you will need to do something like the following:
 
 ## How it works
 
-The renderer works by creating a new tempoary directory, and then copying
-over the `LATEX_RESOURCES` directory into the new tempoary directory.
+The renderer works by creating a new temporary directory, and then copying
+over the `LATEX_RESOURCES` directory into the new temporary directory.
 
-Next it renders the TeX file into the tempoary directory.
+Next it renders the TeX file into the temporary directory.
 
 Then it runs lualatex over the TeX file, and this will produce the PDF file
 we read into memory.
 
-Then we delete the tempoary directory and return the PDF to the client.
+Then we delete the temporary directory and return the PDF to the client.
