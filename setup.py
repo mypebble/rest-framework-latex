@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='rest-framework-latex',
-    version='0.0.3',
+    version='0.0.4',
     description="A LaTeX renderer for Django REST Framework",
     author="SF Software limited t/a Pebble",
     author_email="sysadmin@mypebble.co.uk",
