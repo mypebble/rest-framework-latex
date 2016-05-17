@@ -2,4 +2,3 @@ Django==1.9.6
 argparse==1.2.1
 djangorestframework==3.3.3
 wsgiref==0.1.2
-mock==2.0.0

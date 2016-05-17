@@ -59,11 +59,15 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
         # Copy over resources
         if not hasattr(settings, 'LATEX_RESOURCES'):
             raise ImproperlyConfigured('LATEX_RESOURCES not set')
-        shutil.copytree(settings.LATEX_RESOURCES, join(t_dir, 'tex'))
+
+        tex_dir = join(t_dir, 'tex')
+
+        shutil.copytree(settings.LATEX_RESOURCES, tex_dir)
 
         # Write tex file
-        tex_file = join(t_dir, 'tex', 'file.tex')
-        result_file = join(t_dir, 'tex', 'file.pdf')
+        tex_file = join(tex_dir, 'file.tex')
+        result_file = join(tex_dir, 'file.pdf')
+
         with open(tex_file, 'w') as f:
             f.write(tex)
 
@@ -71,7 +75,7 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
         call_args = [
             'lualatex', '-interaction=nonstopmode', tex_file]
         proc = Popen(
-            call_args, cwd=join(t_dir, 'tex'), stdout=PIPE, stderr=PIPE)
+            call_args, cwd=tex_dir, stdout=PIPE, stderr=PIPE)
 
         out, err = proc.communicate()
 

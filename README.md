@@ -58,6 +58,16 @@ class SomeViewSet(viewsets.ViewSet):
 
 ### Latex Templates
 
+To use the template tags, add `rest_framework_latex` to your `INSTALLED_APPS`:
+
+```python
+INSTALLED_APPS = [
+  ...
+  'rest_framework_latex',
+  ...
+]
+```
+
 The TeX file used for rendering will be pushed through Django's templating
 system. This will cause some issues whereby you want to do something like:
 
@@ -71,6 +81,13 @@ To get around this issue you will need to do something like the following:
 \textt{% templatetag openbrace %}{{ some_variable }}{% templatetag closebrace %}
 ```
 
+#### Included Tags
+
+|        Tag        | Tag/Filter  |                    Purpose                      |
+|-------------------|-------------|-------------------------------------------------|
+|    `latex_safe`   |    Filter   | Escape all user-entered content for LaTeX rules |
+| `latex_resources` |      Tag    |  Print the value of `settings.LATEX_RESOURCES`  |
+
 ## How it works
 
 The renderer works by creating a new temporary directory, and then copying
@@ -82,3 +99,8 @@ Then it runs lualatex over the TeX file, and this will produce the PDF file
 we read into memory.
 
 Then we delete the temporary directory and return the PDF to the client.
+
+## Django Compatibility
+
+The REST Framework LaTeX plugin is compatible with Django 1.9 and up and
+Django REST Framework 3.3 and up.
