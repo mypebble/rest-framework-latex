@@ -1,6 +1,6 @@
 import tempfile
 from os.path import join
-from subprocess import Popen
+from subprocess import Popen, PIPE
 import shutil
 import logging
 
@@ -70,11 +70,17 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
         # Latex it!
         call_args = [
             'lualatex', '-interaction=nonstopmode', tex_file]
-        proc = Popen(call_args, cwd=join(t_dir, 'tex'))
+        proc = Popen(
+            call_args, cwd=join(t_dir, 'tex'), stdout=PIPE, stderr=PIPE)
+
         out, err = proc.communicate()
+
         if proc.returncode != 0:
             err_msg = u'LaTeX returned nonzero response `{}` with msg: `{}`'
-            raise RuntimeError(err_msg.format(proc.returncode, err))
+
+            # Errors appear on stdout
+            raise RuntimeError(err_msg.format(proc.returncode, out))
+        logger.info(out)
         logger.info(err)
 
         # Read file
