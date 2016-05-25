@@ -2,8 +2,11 @@
 
 [![CircleCI](https://circleci.com/gh/mypebble/rest-framework-latex.svg?style=svg)](https://circleci.com/gh/mypebble/rest-framework-latex)
 [![PyPI version](https://badge.fury.io/py/rest-framework-latex.svg)](https://badge.fury.io/py/rest-framework-latex)
+[![Documentation Status](https://readthedocs.org/projects/drf-latex/badge/?version=latest)](http://drf-latex.readthedocs.io/en/latest/?badge=latest)
 
 A simple plug-n-play LaTeX renderer for Django REST Framework.
+
+[Documentation](http://drf-latex.readthedocs.io/en/latest/)
 
 ## Dependencies
 
