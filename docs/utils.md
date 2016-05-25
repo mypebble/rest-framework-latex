@@ -2,7 +2,7 @@
 
 The following utilities for dealing with LaTeX are provided:
 
-## escpae_latex
+## escape_latex
 
 Escapes user supplied text so it is displayed as the user entered it.
 
