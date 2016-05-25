@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from rest_framework_latex.markdown import LatexRenderer
 
-from CommonMark import Parser, ASTtoJSON
+from CommonMark import Parser
 
 
 class MarkdownTestCase(TestCase):
