@@ -1,5 +1,7 @@
 from unittest import TestCase
 
+from django.core.exceptions import ImproperlyConfigured
+
 from rest_framework_latex.templatetags import rest_framework_latex as tags
 
 
@@ -33,7 +35,7 @@ class TemplateTagTestCase(TestCase):
 
     def test_no_markdown(self):
         tags.has_markdown = False
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(ImproperlyConfigured):
             tags.latex_markdown('Test')
         tags.has_markdown = True
 
