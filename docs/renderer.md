@@ -60,6 +60,7 @@ While the code is messy, it works well.
 |        Tag        | Tag/Filter  |                    Purpose                      |
 |-------------------|-------------|-------------------------------------------------|
 |    `latex_safe`   |    Filter   | Escape all user-entered content for LaTeX rules |
+|  `latex_markdown` |    Filter   | Transform Markdown into LaTeX                   |
 
 
 ## How it works
