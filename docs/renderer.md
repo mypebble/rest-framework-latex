@@ -46,7 +46,7 @@ functions you can use to do so.
 * pre_latex runs just before the Latex process is ran
 * post_latex runs just after the Latex process, but before cleanup
 
-```
+```python
 from rest_framework import viewsets
 
 from rest_framework_latex import renderers
