@@ -26,9 +26,9 @@ class RendererTestCase(TestCase):
         request = MagicMock()
         response = MagicMock()
         settings.LATEX_RESOURCES = 'output'
-        self._mock_output(open_util, 'Output')
+        self.mock_output(open_util, 'Output')
 
-        Popen.return_value = self._get_proc()
+        Popen.return_value = self.get_proc()
 
         output = self.renderer.render(
             {'key': 'value'},
@@ -51,7 +51,7 @@ class RendererTestCase(TestCase):
         response = MagicMock()
         settings.LATEX_RESOURCES = 'output'
 
-        Popen.return_value = self._get_proc(
+        Popen.return_value = self.get_proc(
             return_value=1, stdout='Test error')
 
         try:
@@ -78,7 +78,7 @@ class RendererTestCase(TestCase):
         """
         request = MagicMock()
         response = MagicMock()
-        Popen.return_value = self._get_proc()
+        Popen.return_value = self.get_proc()
 
         try:
             self.renderer.render(
@@ -94,20 +94,20 @@ class RendererTestCase(TestCase):
         else:
             self.fail('ImproperlyConfigured error not raised')
 
-    def _get_communicate(self, stdout='', stderr=''):
+    def get_communicate(self, stdout='', stderr=''):
         """Get a Communicate method with pre-defined out/err
         """
         return stdout, stderr
 
-    def _get_proc(self, return_value=0, stdout='', stderr=''):
+    def get_proc(self, return_value=0, stdout='', stderr=''):
         """Return a proc object to attach to the output of Popen
         """
         proc = MagicMock()
-        proc.communicate.return_value = self._get_communicate(stdout, stderr)
+        proc.communicate.return_value = self.get_communicate(stdout, stderr)
         proc.returncode = return_value
         return proc
 
-    def _mock_output(self, open, return_string):
+    def mock_output(self, open, return_string):
         """Set the return_string to the output of the read file.
         """
         open.return_value.__enter__.return_value.read.return_value = 'Output'

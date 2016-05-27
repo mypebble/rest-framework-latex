@@ -38,6 +38,37 @@ images etc you want to reference. (For example if you need
 `dog.jpg` in your document, put it in your `LATEX_RESOURCES`
 directory and it'll get included properly)
 
+## Hooks
+
+If you want to hook into the render process, there are a couple
+functions you can use to do so.
+
+* pre_latex runs just before the Latex process is ran
+* post_latex runs just after the Latex process, but before cleanup
+
+```python
+from rest_framework import viewsets
+
+from rest_framework_latex import renderers
+
+
+class SomeViewSet(viewsets.ViewSet):
+  """
+  """
+  renderer_classes = [
+    renderers.LatexRenderer,
+  ]
+
+  latex_name = 'directory/latexfile.tex'
+  
+  def pre_latex(self, temp_dir, context):
+    pass
+
+  def post_latex(self, temp_dir, context):
+    pass
+
+```
+
 ## Django Templating
 
 The TeX file used for rendering will be pushed through Django's templating

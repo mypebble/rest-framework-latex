@@ -4,11 +4,11 @@ from django.core.exceptions import ImproperlyConfigured
 
 try:
     from CommonMark import Parser
+    from ..markdown import LatexRenderer
     has_markdown = True
 except ImportError:
     has_markdown = False
 
-from ..markdown import LatexRenderer
 from ..utils import escape_latex
 
 register = template.Library()
