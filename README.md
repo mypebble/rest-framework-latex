@@ -6,6 +6,8 @@
 
 A simple plug-n-play LaTeX renderer for Django REST Framework.
 
+[Documentation](http://drf-latex.readthedocs.io/en/latest/)
+
 ## Installing
 
 REST Framework LaTeX can be downloaded from PyPI:
@@ -13,8 +15,6 @@ REST Framework LaTeX can be downloaded from PyPI:
 ```bash
 pip install rest-framework-latex
 ```
-
-[Documentation](http://drf-latex.readthedocs.io/en/latest/)
 
 ## Dependencies
 
