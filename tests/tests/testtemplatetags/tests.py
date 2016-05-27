@@ -1,5 +1,7 @@
 from unittest import TestCase
 
+from django.core.exceptions import ImproperlyConfigured
+
 from rest_framework_latex.templatetags import rest_framework_latex as tags
 
 
@@ -30,3 +32,14 @@ class TemplateTagTestCase(TestCase):
             (escaped_backslash, escaped_tilde))
 
         self.assertEqual(tags.latex_safe(entry_string), escaped_string)
+
+    def test_no_markdown(self):
+        tags.has_markdown = False
+        with self.assertRaises(ImproperlyConfigured):
+            tags.latex_markdown('Test')
+        tags.has_markdown = True
+
+    def test_markdown(self):
+        test = '**Bold** _Emph_'
+        latex = tags.latex_markdown(test)
+        self.assertEquals(latex, u'\\textbf{Bold} \\emph{Emph}\n\n')
