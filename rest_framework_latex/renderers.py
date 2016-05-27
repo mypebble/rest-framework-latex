@@ -36,6 +36,14 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
             u'Returned a template response with no `latex_name` attribute '
             u'set on either the view or response')
 
+    def pre_latex(self, view, t_dir, data):
+        if hasattr(view, 'pre_latex'):
+            view.pre_latex(t_dir, data)
+
+    def post_latex(self, view, t_dir, data):
+        if hasattr(view, 'post_latex'):
+            view.post_latex(t_dir, data)
+
     def render(self, data, accepted_media_type=None, renderer_context=None):
         """Renders data to PDF using a LaTeX template
         """
@@ -46,16 +54,20 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
         # Build tempoary directory
         t_dir = tempfile.mkdtemp(prefix='drf_latex_')
 
+        view = renderer_context['view']
+
         ret = None
         try:
-            ret = self.run_latex(tex, t_dir)
+            ret = self.run_latex(tex, t_dir, view, data)
         finally:
             # Cleanup
             shutil.rmtree(t_dir)
 
+        self.post_latex(view, t_dir, data)
+
         return ret
 
-    def run_latex(self, tex, t_dir):
+    def run_latex(self, tex, t_dir, view, data):
         # Copy over resources
         if not hasattr(settings, 'LATEX_RESOURCES'):
             raise ImproperlyConfigured('LATEX_RESOURCES not set')
@@ -70,6 +82,9 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
 
         with open(tex_file, 'w') as f:
             f.write(tex)
+
+        # Hook
+        self.pre_latex(view, t_dir, data)
 
         # Latex it!
         call_args = [
