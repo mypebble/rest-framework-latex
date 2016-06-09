@@ -7,6 +7,7 @@ def escape_latex(value):
     value = value.replace('#', '\\#')
     value = value.replace('$', '\\$')
     value = value.replace('%', '\\%')
+    value = value.replace('&', '\\&')
     value = value.replace('^', '\\^')
     value = value.replace('_', '\\_')
     value = value.replace('~', '\\textasciitidle{}')
