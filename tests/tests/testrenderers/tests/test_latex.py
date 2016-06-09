@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from unittest import TestCase
 
 from mock import MagicMock, patch
@@ -39,6 +40,35 @@ class RendererTestCase(TestCase):
             }
         )
         self.assertEqual(output, 'Output')
+
+    @patch('rest_framework_latex.renderers.shutil')
+    @patch('rest_framework_latex.renderers.settings')
+    @patch('rest_framework_latex.renderers.open')
+    @patch('rest_framework_latex.renderers.Popen')
+    @patch('rest_framework.renderers.template_render')
+    def test_write_unicode(self, render, Popen, open_util, settings, shutil):
+        """Writing Unicode characters shouldn't error.
+        """
+        request = MagicMock()
+        response = MagicMock()
+        render.return_value = u'£ü'
+
+        file_handle = MagicMock()
+        open_util.return_value.__enter__.return_value = file_handle
+        settings.LATEX_RESOURCES = 'output'
+        self.mock_output(open_util, u'£ü')
+        Popen.return_value = self.get_proc()
+
+        output = self.renderer.render(
+            {'key': 'value'},
+            renderer_context={
+                'view': self.view,
+                'request': request,
+                'response': response,
+            }
+        )
+        self.assertEqual(output, u'£ü')
+        file_handle.write.assert_called_with(u'£ü'.encode('utf-8'))
 
     @patch('rest_framework_latex.renderers.shutil')
     @patch('rest_framework_latex.renderers.settings')
@@ -110,7 +140,8 @@ class RendererTestCase(TestCase):
     def mock_output(self, open, return_string):
         """Set the return_string to the output of the read file.
         """
-        open.return_value.__enter__.return_value.read.return_value = 'Output'
+        open.return_value.__enter__.return_value.read.return_value = (
+            return_string)
 
 
 class _FakeView(object):

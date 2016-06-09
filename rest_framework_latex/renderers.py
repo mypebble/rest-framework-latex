@@ -81,7 +81,7 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
         result_file = join(tex_dir, 'file.pdf')
 
         with open(tex_file, 'w') as f:
-            f.write(tex)
+            f.write(tex.encode('utf-8'))
 
         # Hook
         self.pre_latex(view, t_dir, data)
