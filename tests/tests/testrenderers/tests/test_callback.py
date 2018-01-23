@@ -1,4 +1,9 @@
-from mock import MagicMock, patch
+from __future__ import absolute_import, print_function, unicode_literals
+
+try:
+    from unittest.mock import patch, MagicMock
+except ImportError:
+    from mock import MagicMock, patch
 
 from rest_framework_latex import renderers
 from tests.testrenderers.tests.test_latex import RendererTestCase
@@ -7,6 +12,7 @@ from tests.testrenderers.tests.test_latex import RendererTestCase
 class CallbackTestCase(RendererTestCase):
     """Test the LatexRenderer
     """
+
     def setUp(self):
         """Reset the renderer for testing
         """

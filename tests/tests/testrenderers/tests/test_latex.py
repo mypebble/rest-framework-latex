@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
-from unittest import TestCase
+from __future__ import absolute_import, print_function, unicode_literals
 
-from mock import MagicMock, patch
+try:
+    from unittest import mock, TestCase
+except ImportError:
+    import mock
+import six
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -11,21 +15,22 @@ from rest_framework_latex import renderers
 class RendererTestCase(TestCase):
     """Test the LatexRenderer
     """
+
     def setUp(self):
         """Reset the renderer for testing
         """
         self.renderer = renderers.LatexRenderer()
         self.view = _FakeView()
 
-    @patch('rest_framework_latex.renderers.shutil')
-    @patch('rest_framework_latex.renderers.settings')
-    @patch('rest_framework_latex.renderers.open')
-    @patch('rest_framework_latex.renderers.Popen')
+    @mock.patch('rest_framework_latex.renderers.shutil')
+    @mock.patch('rest_framework_latex.renderers.settings')
+    @mock.patch('rest_framework_latex.renderers.open')
+    @mock.patch('rest_framework_latex.renderers.Popen')
     def test_successful_render(self, Popen, open_util, settings, shutil):
         """Assume a render was successful.
         """
-        request = MagicMock()
-        response = MagicMock()
+        request = mock.MagicMock()
+        response = mock.MagicMock()
         settings.LATEX_RESOURCES = 'output'
         self.mock_output(open_util, 'Output')
 
@@ -41,19 +46,19 @@ class RendererTestCase(TestCase):
         )
         self.assertEqual(output, 'Output')
 
-    @patch('rest_framework_latex.renderers.shutil')
-    @patch('rest_framework_latex.renderers.settings')
-    @patch('rest_framework_latex.renderers.open')
-    @patch('rest_framework_latex.renderers.Popen')
-    @patch('rest_framework.renderers.template_render')
+    @mock.patch('rest_framework_latex.renderers.shutil')
+    @mock.patch('rest_framework_latex.renderers.settings')
+    @mock.patch('rest_framework_latex.renderers.open')
+    @mock.patch('rest_framework_latex.renderers.Popen')
+    @mock.patch('rest_framework.renderers.template_render')
     def test_write_unicode(self, render, Popen, open_util, settings, shutil):
         """Writing Unicode characters shouldn't error.
         """
-        request = MagicMock()
-        response = MagicMock()
+        request = mock.MagicMock()
+        response = mock.MagicMock()
         render.return_value = u'£ü'
 
-        file_handle = MagicMock()
+        file_handle = mock.MagicMock()
         open_util.return_value.__enter__.return_value = file_handle
         settings.LATEX_RESOURCES = 'output'
         self.mock_output(open_util, u'£ü')
@@ -70,15 +75,15 @@ class RendererTestCase(TestCase):
         self.assertEqual(output, u'£ü')
         file_handle.write.assert_called_with(u'£ü'.encode('utf-8'))
 
-    @patch('rest_framework_latex.renderers.shutil')
-    @patch('rest_framework_latex.renderers.settings')
-    @patch('rest_framework_latex.renderers.open')
-    @patch('rest_framework_latex.renderers.Popen')
+    @mock.patch('rest_framework_latex.renderers.shutil')
+    @mock.patch('rest_framework_latex.renderers.settings')
+    @mock.patch('rest_framework_latex.renderers.open')
+    @mock.patch('rest_framework_latex.renderers.Popen')
     def test_latex_error(self, Popen, open_util, settings, shutil):
         """Raise an error if the latex command failed.
         """
-        request = MagicMock()
-        response = MagicMock()
+        request = mock.MagicMock()
+        response = mock.MagicMock()
         settings.LATEX_RESOURCES = 'output'
 
         Popen.return_value = self.get_proc(
@@ -94,20 +99,27 @@ class RendererTestCase(TestCase):
                 }
             )
         except RuntimeError as err:
-            self.assertEqual(
-                err.message,
-                'LaTeX returned nonzero response `1` with msg: `Test error`')
+            if six.PY2:
+                self.assertEqual(
+                    err.message,
+                    'LaTeX returned nonzero response `1` with msg: '
+                    '`Test error`')
+            else:
+                self.assertEqual(
+                    str(err),
+                    'LaTeX returned nonzero response `1` with msg: '
+                    '`Test error`')
         else:
             self.fail('Runtime error not raised')
 
-    @patch('rest_framework_latex.renderers.shutil')
-    @patch('rest_framework_latex.renderers.open')
-    @patch('rest_framework_latex.renderers.Popen')
+    @mock.patch('rest_framework_latex.renderers.shutil')
+    @mock.patch('rest_framework_latex.renderers.open')
+    @mock.patch('rest_framework_latex.renderers.Popen')
     def test_missing_latex_setting(self, Popen, open_util, shutil):
         """Not setting LATEX_RESOURCES is an error
         """
-        request = MagicMock()
-        response = MagicMock()
+        request = mock.MagicMock()
+        response = mock.MagicMock()
         Popen.return_value = self.get_proc()
 
         try:
@@ -120,7 +132,10 @@ class RendererTestCase(TestCase):
                 }
             )
         except ImproperlyConfigured as err:
-            self.assertEqual(err.message, 'LATEX_RESOURCES not set')
+            if six.PY2:
+                self.assertEqual(err.message, 'LATEX_RESOURCES not set')
+            else:
+                self.assertEqual(str(err), 'LATEX_RESOURCES not set')
         else:
             self.fail('ImproperlyConfigured error not raised')
 
@@ -132,7 +147,7 @@ class RendererTestCase(TestCase):
     def get_proc(self, return_value=0, stdout='', stderr=''):
         """Return a proc object to attach to the output of Popen
         """
-        proc = MagicMock()
+        proc = mock.MagicMock()
         proc.communicate.return_value = self.get_communicate(stdout, stderr)
         proc.returncode = return_value
         return proc

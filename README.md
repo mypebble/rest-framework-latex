@@ -94,10 +94,10 @@ To get around this issue you will need to do something like the following:
 
 #### Included Tags
 
-|        Tag        | Tag/Filter  |                    Purpose                      |
-|-------------------|-------------|-------------------------------------------------|
-|    `latex_safe`   |    Filter   | Escape all user-entered content for LaTeX rules |
-| `latex_resources` |      Tag    |  Print the value of `settings.LATEX_RESOURCES`  |
+| Tag               | Tag/Filter | Purpose                                         |
+| ----------------- | ---------- | ----------------------------------------------- |
+| `latex_safe`      | Filter     | Escape all user-entered content for LaTeX rules |
+| `latex_resources` | Tag        | Print the value of `settings.LATEX_RESOURCES`   |
 
 ## How it works
 
@@ -113,5 +113,5 @@ Then we delete the temporary directory and return the PDF to the client.
 
 ## Django Compatibility
 
-The REST Framework LaTeX plugin is compatible with Django 1.9 and up and
+The REST Framework LaTeX plugin is compatible with Django 1.11 and up and
 Django REST Framework 3.3 and up.

@@ -1,0 +1,4 @@
+django==1.11.8
+djangorestframework==3.3.3
+commonmark
+six
