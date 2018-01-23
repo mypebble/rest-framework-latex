@@ -1,8 +1,14 @@
-import tempfile
+"""The renderer.
+"""
+from __future__ import absolute_import, print_function, unicode_literals
+
 from os.path import join
 from subprocess import Popen, PIPE
-import shutil
+
 import logging
+import shutil
+import six
+import tempfile
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -81,7 +87,8 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
         result_file = join(tex_dir, 'file.pdf')
 
         with open(tex_file, 'w') as f:
-            f.write(tex.encode('utf-8'))
+            output = tex.encode('utf-8') if six.PY2 else tex
+            f.write(output)
 
         # Hook
         self.pre_latex(view, t_dir, data)

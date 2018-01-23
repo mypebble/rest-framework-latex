@@ -72,8 +72,10 @@ class RendererTestCase(TestCase):
                 'response': response,
             }
         )
-        self.assertEqual(output, u'£ü')
-        file_handle.write.assert_called_with(u'£ü'.encode('utf-8'))
+        self.assertEqual(output, '£ü')
+
+        test_val = '£ü'.encode('utf-8') if six.PY2 else '£ü'
+        file_handle.write.assert_called_with(test_val)
 
     @mock.patch('rest_framework_latex.renderers.shutil')
     @mock.patch('rest_framework_latex.renderers.settings')
