@@ -110,7 +110,7 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
         logger.info(err)
 
         # Read file
-        with open(result_file) as f:
+        with open(result_file, 'rb') as f:
             r = f.read()
 
         # return
