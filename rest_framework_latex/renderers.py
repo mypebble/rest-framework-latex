@@ -55,7 +55,7 @@ class LatexRenderer(renderers.TemplateHTMLRenderer):
         """
         # Get latex
         tex = super(LatexRenderer, self).render(
-            data, accepted_media_type, renderer_context)
+            {'data': data}, accepted_media_type, renderer_context)
 
         # Build tempoary directory
         t_dir = tempfile.mkdtemp(prefix='drf_latex_')
