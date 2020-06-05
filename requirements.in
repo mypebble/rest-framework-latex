@@ -1,4 +1,4 @@
-django==1.11.22
+django==1.11.29
 djangorestframework==3.3.3
 commonmark
 six
