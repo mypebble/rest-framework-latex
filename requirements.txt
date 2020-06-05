@@ -4,9 +4,9 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-commonmark==0.7.4
-django==1.11.22
-djangorestframework==3.3.3
+commonmark==0.7.4         # via -r requirements.in
+django==1.11.29           # via -r requirements.in
+djangorestframework==3.3.3  # via -r requirements.in
 future==0.16.0            # via commonmark
 pytz==2017.3              # via django
-six==1.12.0
+six==1.12.0               # via -r requirements.in
